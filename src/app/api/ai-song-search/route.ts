@@ -24,7 +24,7 @@ async function searchSpotifyTracksWithRetry(
     const result = await spotifyApi.searchTracks(query);
     console.timeEnd("Spotify Track Search");
     return result;
-  } catch (err) {
+  } catch (err:any) {
     console.error(`[Spotify Track Search Failed] Attempt ${attempt}`, err);
 
     if (attempt < MAX_RETRIES && err.code === "ETIMEDOUT") {
@@ -47,7 +47,7 @@ async function searchSpotifyAlbumsWithRetry(
     const result = await spotifyApi.searchAlbums(query);
     console.timeEnd("Spotify Album Search");
     return result;
-  } catch (err) {
+  } catch (err:any) {
     console.error(`[Spotify Album Search Failed] Attempt ${attempt}`, err);
 
     if (attempt < MAX_RETRIES && err.code === "ETIMEDOUT") {

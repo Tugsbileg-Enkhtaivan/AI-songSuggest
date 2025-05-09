@@ -1,25 +1,23 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import SpotifyWebApi from "spotify-web-api-node";
+// src/app/api/spotify-song/route.ts
+import { NextRequest, NextResponse } from 'next/server';
+import SpotifyWebApi from 'spotify-web-api-node';
 
 const spotifyApi = new SpotifyWebApi({
   clientId: process.env.SPOTIFY_CLIENT_ID,
   clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
 });
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  const { songId } = JSON.parse(req.body);
-
+export async function POST(req: NextRequest) {
   try {
-    const accessToken = "YOUR_ACCESS_TOKEN";
+    const { songId } = await req.json();
+
+    const accessToken = "YOUR_ACCESS_TOKEN"; // Replace with dynamic retrieval logic
     spotifyApi.setAccessToken(accessToken);
 
-    await spotifyApi.addToMySavedTracks(songId);
+    await spotifyApi.addToMySavedTracks([songId]); // Note: expects an array
 
-    res.status(200).json({ success: true });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+    return NextResponse.json({ success: true }, { status: 200 });
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
