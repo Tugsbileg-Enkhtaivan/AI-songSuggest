@@ -4,7 +4,7 @@ import SpotifyWebApi from "spotify-web-api-node";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY!,
-  timeout: 30000, // Timeout for OpenAI requests increased to 30s
+  timeout: 30000,
 });
 
 const spotifyApi = new SpotifyWebApi({
@@ -13,7 +13,7 @@ const spotifyApi = new SpotifyWebApi({
 });
 
 const MAX_RETRIES = 3;
-const RETRY_DELAY_MS = 1000; // Initial delay of 1 second
+const RETRY_DELAY_MS = 1000;
 
 async function searchSpotifyTracksWithRetry(
   query: string,
@@ -27,15 +27,14 @@ async function searchSpotifyTracksWithRetry(
   } catch (err) {
     console.error(`[Spotify Track Search Failed] Attempt ${attempt}`, err);
 
-    // Retry if it was a timeout error and we haven't reached max retries
     if (attempt < MAX_RETRIES && err.code === "ETIMEDOUT") {
-      const delay = RETRY_DELAY_MS * Math.pow(2, attempt); // Exponential backoff
+      const delay = RETRY_DELAY_MS * Math.pow(2, attempt);
       console.log(`Retrying in ${delay}ms...`);
       await new Promise((resolve) => setTimeout(resolve, delay));
       return searchSpotifyTracksWithRetry(query, attempt + 1);
     }
 
-    throw err; // Throw error after retries are exhausted
+    throw err;
   }
 }
 
@@ -51,15 +50,14 @@ async function searchSpotifyAlbumsWithRetry(
   } catch (err) {
     console.error(`[Spotify Album Search Failed] Attempt ${attempt}`, err);
 
-    // Retry if it was a timeout error and we haven't reached max retries
     if (attempt < MAX_RETRIES && err.code === "ETIMEDOUT") {
-      const delay = RETRY_DELAY_MS * Math.pow(2, attempt); // Exponential backoff
+      const delay = RETRY_DELAY_MS * Math.pow(2, attempt);
       console.log(`Retrying in ${delay}ms...`);
       await new Promise((resolve) => setTimeout(resolve, delay));
       return searchSpotifyAlbumsWithRetry(query, attempt + 1);
     }
 
-    throw err; // Throw error after retries are exhausted
+    throw err;
   }
 }
 

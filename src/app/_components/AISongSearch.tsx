@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import axios from "axios";
-import SongCard from "./SongCard"; // Adjust this path if needed
+import SongCard from "./SongCard";
 
 export default function AISongSearch() {
   const [mood, setMood] = useState("");
   const [vibe, setVibe] = useState("");
-  const [songs, setSongs] = useState<any[]>([]); // safer initial value
+  const [songs, setSongs] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
   const fetchSongs = async () => {
@@ -17,7 +17,6 @@ export default function AISongSearch() {
         params: { mood, vibe },
       });
 
-      // Make sure it's an array
       setSongs(Array.isArray(res.data.songs) ? res.data.songs : []);
     } catch (error) {
       console.error("Failed to fetch songs:", error);

@@ -13,10 +13,9 @@ export default async function handler(
   const { songId } = JSON.parse(req.body);
 
   try {
-    const accessToken = "YOUR_ACCESS_TOKEN"; // You need to implement OAuth to get this token
+    const accessToken = "YOUR_ACCESS_TOKEN";
     spotifyApi.setAccessToken(accessToken);
 
-    // Pass the songId directly (as a string, not an array)
     await spotifyApi.addToMySavedTracks(songId);
 
     res.status(200).json({ success: true });

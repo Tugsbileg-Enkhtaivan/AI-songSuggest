@@ -6,7 +6,7 @@ function MusicDiscoveryPage() {
       <h1>Discover Music Based on Mood and Vibe</h1>
 
       {/* Example search */}
-      <AISongSearch mood="happy" vibe="cinematic" />
+      {/* <AISongSearch mood="happy" vibe="cinematic" /> */}
     </div>
   );
 }
